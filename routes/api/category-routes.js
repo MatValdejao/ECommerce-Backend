@@ -16,6 +16,24 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
 	// find one category by its `id` value
 	// be sure to include its associated Products
+	Category.findOne({
+		// select at specific id
+		where: {
+			id: req.params.id,
+		},
+	})
+		.then((categoryData) => {
+			// check whether id exists
+			if (!categoryData) {
+				res.status(404).json({ message: "No category with that id" });
+				return;
+			}
+			res.json(categoryData);
+		})
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json(err);
+		});
 });
 
 router.post("/", (req, res) => {
