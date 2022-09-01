@@ -5,6 +5,7 @@ const { Product, Category, Tag, ProductTag } = require("../../models");
 
 // get all products
 router.get("/", (req, res) => {
+	// gets all products and return as json
 	Product.findAll({})
 		.then((productData) => res.json(productData))
 		.catch((err) => {
@@ -15,8 +16,16 @@ router.get("/", (req, res) => {
 
 // get one product
 router.get("/:id", (req, res) => {
-	// find a single product by its `id`
-	// be sure to include its associated Category and Tag data
+	Product.findOne({
+		where: {
+			id: req.params.id,
+		},
+	})
+		.then((productData) => res.json(productData))
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json(err);
+		});
 });
 
 // create new product
