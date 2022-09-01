@@ -14,8 +14,25 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-	// find a single tag by its `id`
-	// be sure to include its associated Product data
+	// find specific tags by a specified id
+	Tag.findOne({
+		// select onlt when id is equal to query id
+		where: {
+			id: req.params.id,
+		},
+	})
+		.then((tagData) => {
+			// checks whether id was present
+			if (!tagData) {
+				res.status(404).json({ message: "No tag with that id" });
+				return;
+			}
+			res.json(tagData);
+		})
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json(err);
+		});
 });
 
 router.post("/", (req, res) => {
