@@ -5,7 +5,17 @@ const { Tag, Product, ProductTag } = require("../../models");
 
 router.get("/", (req, res) => {
 	// get all tags
-	Tag.findAll({})
+	Tag.findAll({
+		// set up relation with product table
+		include: [
+			{
+				model: Product,
+				attributes: ["product_name", "price", "stock"],
+				through: ProductTag,
+				as: "product",
+			},
+		],
+	})
 		.then((tagData) => res.json(tagData))
 		.catch((err) => {
 			console.log(err);
@@ -16,7 +26,14 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
 	// find specific tags by a specified id
 	Tag.findOne({
-		// select onlt when id is equal to query id
+		include: [{
+			model: Product,
+			attributes: ["product_name", "price", "stock"],
+			through: ProductTag,
+			as: "product"
+		}],
+
+		// select only when id is equal to query id
 		where: {
 			id: req.params.id,
 		},
