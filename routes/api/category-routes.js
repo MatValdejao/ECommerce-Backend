@@ -27,7 +27,6 @@ router.get("/:id", (req, res) => {
 		include: [
 			{
 				model: Product,
-				attributes: ["product_name", "price", "stock"],
 			},
 		],
 		// select at specific id
