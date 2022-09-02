@@ -10,9 +10,8 @@ router.get("/", (req, res) => {
 		include: [
 			{
 				model: Product,
-				attributes: ["product_name", "price", "stock"],
 				through: ProductTag,
-				as: "product",
+				as: "products",
 			},
 		],
 	})
@@ -28,9 +27,8 @@ router.get("/:id", (req, res) => {
 	Tag.findOne({
 		include: [{
 			model: Product,
-			attributes: ["product_name", "price", "stock"],
 			through: ProductTag,
-			as: "product"
+			as: "products"
 		}],
 
 		// select only when id is equal to query id
